@@ -21,3 +21,25 @@ export const createuser = async (req, res) => {
     .status(201)
     .json({ data: newuser, message: "User created successfully" });
 };
+
+// * User update controller
+export const updateuser = async (req, res) => {
+  const userId = req.params.id;
+  const { name, email, password } = req.body;
+  const finduser = await prisma.user.update({
+    where: {
+      id: Number(userId),
+    },
+    data: {
+      name,
+      email,
+      password,
+    },
+  });
+  if (!finduser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  return res
+    .status(200)
+    .json({ data: finduser, message: "User updated successfully" });
+};
