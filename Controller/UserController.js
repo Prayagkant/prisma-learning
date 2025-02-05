@@ -63,3 +63,19 @@ export const updateuser = async (req, res) => {
     .status(200)
     .json({ data: finduser, message: "User updated successfully" });
 };
+
+// * Delete a user
+export const deleteuser = async (req, res) => {
+  const userId = req.params.id;
+  const finduser = await prisma.user.delete({
+    where: {
+      id: Number(userId),
+    },
+  });
+  if (!finduser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  return res
+    .status(200)
+    .json({ data: finduser, message: "User deleted successfully" });
+};
